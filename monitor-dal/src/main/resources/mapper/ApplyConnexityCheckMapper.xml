@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oriental.finance.cat.monitor.dal.mapper.ApplyConnexityCheckMapper">
+
+    <resultMap id="BaseResultMap" type="com.oriental.finance.cat.monitor.dal.model.ApplyConnexityCheckDO">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="APPLY_PLATFORM" property="applyPlatform" jdbcType="VARCHAR"/>
+        <result column="CONNEXITY_TYPE" property="connexityType" jdbcType="VARCHAR"/>
+        <result column="CHECK_URL" property="checkUrl" jdbcType="VARCHAR"/>
+        <result column="CHECK_STATUS" property="checkStatus" jdbcType="VARCHAR"/>
+        <result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Insert_Column_List">
+        APPLY_PLATFORM,CONNEXITY_TYPE,CHECK_URL,CHECK_STATUS,
+        CHECK_TIME,CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <sql id="Base_Column_List">
+        ID,APPLY_PLATFORM,CONNEXITY_TYPE,CHECK_URL,CHECK_STATUS,
+        CHECK_TIME,CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <!--    ApplyConnexityCheckMapper  deleteByPrimaryKey   -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from
+            t_monitor_apply_connexity_check
+        where
+            ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--    ApplyConnexityCheckMapper  insert   -->
+    <insert id="insert" parameterType="com.oriental.finance.cat.monitor.dal.model.ApplyConnexityCheckDO">
+        insert into t_monitor_apply_connexity_check (
+            <include refid="Insert_Column_List"/>
+        )
+        values (
+            #{applyPlatform,jdbcType=VARCHAR}, #{connexityType,jdbcType=VARCHAR},
+            #{checkUrl,jdbcType=VARCHAR}, #{checkStatus,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP},
+            #{createBy,jdbcType=VARCHAR}, NOW(), #{updateBy,jdbcType=VARCHAR},NOW()
+        )
+    </insert>
+
+    <!--    ApplyConnexityCheckMapper  update   -->
+    <update id="update" parameterType="com.oriental.finance.cat.monitor.dal.model.ApplyConnexityCheckDO">
+        update
+            t_monitor_apply_connexity_check
+        set
+            APPLY_PLATFORM = #{applyPlatform,jdbcType=VARCHAR},
+            CONNEXITY_TYPE = #{connexityType,jdbcType=VARCHAR},
+            CHECK_URL = #{checkUrl,jdbcType=VARCHAR},
+            CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR},
+            CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+        where
+            ID = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--    ApplyConnexityCheckMapper  findByPrimaryKey   -->
+    <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            t_monitor_apply_connexity_check
+        where
+            ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--    ApplyConnexityCheckMapper  findByCondition   -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            t_monitor_apply_connexity_check
+        WHERE 1=1
+        <if test="null != applyPlatform and '' != applyPlatform">
+            AND APPLY_PLATFORM = #{applyPlatform,jdbcType=VARCHAR}
+        </if>
+        <if test="null != connexityType and '' != connexityType">
+            AND CONNEXITY_TYPE = #{connexityType,jdbcType=VARCHAR}
+        </if>
+        <if test="null != checkUrl and '' != checkUrl">
+            AND  CHECK_URL = #{checkUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="null != checkStatus and '' != checkStatus">
+            AND CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="null != checkTime">
+            AND CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != createBy and '' != createBy">
+            AND  CREATE_BY = #{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="null != createAt">
+            CREATE_AT = #{createAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != updateBy and '' != updateBy">
+            AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        </if>
+        <if test="null != updateAt">
+            AND UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+</mapper>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oriental.finance.cat.monitor.dal.mapper.ServiceStateMapper">
+
+    <resultMap id="BaseResultMap" type="com.oriental.finance.cat.monitor.dal.model.ServiceStateDO">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="SERVICE_DATE" jdbcType="DATE" property="serviceDate"/>
+        <result column="SERVICE_TYPE" jdbcType="VARCHAR" property="serviceType"/>
+        <result column="SERVICE_PATH" jdbcType="VARCHAR" property="servicePath"/>
+        <result column="SERVICE_PLATFORM" jdbcType="VARCHAR" property="servicePlatform"/>
+        <result column="TRACE_LOG_ID" jdbcType="VARCHAR" property="traceLogId"/>
+        <result column="START_EXECUTE_TIME" jdbcType="TIMESTAMP" property="startExecuteTime"/>
+        <result column="END_EXECUTE_TIME" jdbcType="TIMESTAMP" property="endExecuteTime"/>
+        <result column="EXECUTE_TIME" jdbcType="INTEGER" property="executeTime"/>
+        <result column="SERVICE_STATUS" jdbcType="VARCHAR" property="serviceStatus"/>
+        <result column="SERVICE_RESP_CODE" jdbcType="VARCHAR" property="serviceRespCode"/>
+        <result column="SERVICE_RESP_DESC" jdbcType="VARCHAR" property="serviceRespDesc"/>
+        <result column="RELATION_NO" jdbcType="VARCHAR" property="relationNo"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="ENABLE_FLAG" jdbcType="VARCHAR" property="enableFlag"/>
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt"/>
+    </resultMap>
+
+    <sql id="Insert_Column_List">
+        SERVICE_DATE,SERVICE_TYPE,SERVICE_PATH,SERVICE_PLATFORM,TRACE_LOG_ID,
+        START_EXECUTE_TIME,END_EXECUTE_TIME,EXECUTE_TIME,SERVICE_STATUS,
+        SERVICE_RESP_CODE,SERVICE_RESP_DESC,RELATION_NO,
+        REMARK,ENABLE_FLAG,CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <sql id="Base_Column_List">
+        ID,SERVICE_DATE,SERVICE_TYPE,SERVICE_PATH,SERVICE_PLATFORM,TRACE_LOG_ID,
+        START_EXECUTE_TIME,END_EXECUTE_TIME,EXECUTE_TIME,SERVICE_STATUS,
+        SERVICE_RESP_CODE,SERVICE_RESP_DESC,RELATION_NO,
+        REMARK,ENABLE_FLAG,CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <!--    ServiceState deleteByPrimaryKey    -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE from
+            t_monitor_service_state
+        WHERE
+            ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--    ServiceState insert    -->
+    <insert id="insert" parameterType="com.oriental.finance.cat.monitor.dal.model.ServiceStateDO">
+        insert into t_monitor_service_state (
+            <include refid="Insert_Column_List"/>
+        )
+        values (
+            #{serviceDate,jdbcType=DATE}, #{serviceType,jdbcType=VARCHAR},
+            #{servicePath,jdbcType=VARCHAR}, #{servicePlatform,jdbcType=VARCHAR}, #{traceLogId,jdbcType=VARCHAR},
+            #{startExecuteTime,jdbcType=TIMESTAMP}, #{endExecuteTime,jdbcType=TIMESTAMP}, #{executeTime,jdbcType=INTEGER},
+            #{serviceStatus,jdbcType=VARCHAR}, #{serviceRespCode,jdbcType=VARCHAR}, #{serviceRespDesc,jdbcType=VARCHAR},
+            #{relationNo,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}, #{enableFlag,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+            NOW(), #{updateBy,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!--    ServiceState update    -->
+    <update id="update" parameterType="com.oriental.finance.cat.monitor.dal.model.ServiceStateDO">
+        update
+            t_monitor_service_state
+        SET
+            SERVICE_DATE = #{serviceDate,jdbcType=DATE},
+            SERVICE_TYPE = #{serviceType,jdbcType=VARCHAR},
+            SERVICE_PATH = #{servicePath,jdbcType=VARCHAR},
+            SERVICE_PLATFORM = #{servicePlatform,jdbcType=VARCHAR},
+            TRACE_LOG_ID = #{traceLogId,jdbcType=VARCHAR},
+            START_EXECUTE_TIME = #{startExecuteTime,jdbcType=TIMESTAMP},
+            END_EXECUTE_TIME = #{endExecuteTime,jdbcType=TIMESTAMP},
+            EXECUTE_TIME = #{executeTime,jdbcType=TIMESTAMP},
+            SERVICE_STATUS = #{serviceStatus,jdbcType=VARCHAR},
+            SERVICE_RESP_CODE = #{serviceRespCode,jdbcType=VARCHAR},
+            SERVICE_RESP_DESC = #{serviceRespDesc,jdbcType=VARCHAR},
+            RELATION_NO = #{relationNo,jdbcType=VARCHAR},
+            REMARK = #{remark,jdbcType=VARCHAR},
+            ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR},
+            UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            UPDATE_AT = NOW()
+        WHERE
+            ID = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--    ServiceState findByPrimaryKey    -->
+    <select id="findByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            t_monitor_service_state
+        WHERE
+            ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--    ServiceState findByCondition    -->
+    <select id="findByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            t_monitor_service_state
+        WHERE 1=1
+        <if test="null != serviceDate">
+            AND SERVICE_DATE = #{serviceDate,jdbcType=DATE}
+        </if>
+        <if test="null != serviceType and '' != serviceType">
+            AND SERVICE_TYPE = #{serviceType,jdbcType=VARCHAR}
+        </if>
+        <if test="null != servicePath and '' != servicePath">
+            AND SERVICE_PATH = #{servicePath,jdbcType=VARCHAR}
+        </if>
+        <if test="null != servicePlatform and '' != servicePlatform">
+            AND SERVICE_PLATFORM = #{servicePlatform,jdbcType=VARCHAR}
+        </if>
+        <if test="null != traceLogId and '' != traceLogId">
+            AND TRACE_LOG_ID = #{traceLogId,jdbcType=VARCHAR}
+        </if>
+        <if test="null != startExecuteTime">
+            AND START_EXECUTE_TIME = #{startExecuteTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != endExecuteTime">
+            AND END_EXECUTE_TIME = #{endExecuteTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != executeTime and '' != executeTime">
+            AND EXECUTE_TIME = #{executeTime,jdbcType=INTEGER}
+        </if>
+        <if test="null != serviceStatus and '' != serviceStatus">
+            AND SERVICE_STATUS = #{serviceStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="null != serviceRespCode and '' != serviceRespCode">
+            AND SERVICE_RESP_CODE = #{serviceRespCode,jdbcType=VARCHAR}
+        </if>
+        <if test="null != serviceRespDesc and '' != serviceRespDesc">
+            AND SERVICE_RESP_DESC = #{serviceRespDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="null != relationNo and '' != relationNo">
+            AND RELATION_NO = #{relationNo,jdbcType=VARCHAR}
+        </if>
+        <if test="null != enableFlag and '' != enableFlag">
+            AND ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="null != createBy and '' != createBy">
+            AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="null != createAt">
+            AND CREATE_AT = #{createAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != updateBy and '' != updateBy">
+            AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        </if>
+        <if test="null != updateAt">
+            AND UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <!--  ServiceState count  -->
+    <select id="count" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            t_monitor_service_state
+    </select>
+
+</mapper>

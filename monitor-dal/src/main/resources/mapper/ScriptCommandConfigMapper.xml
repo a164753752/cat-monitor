@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oriental.finance.cat.monitor.dal.mapper.ScriptCommandConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.oriental.finance.cat.monitor.dal.model.ScriptCommandConfigDO">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="COMMAND_KEY" property="commandKey" jdbcType="VARCHAR"/>
+        <result column="COMMAND" property="command" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Insert_Column_List">
+        COMMAND_KEY,COMMAND,REMARK,ENABLE_FLAG,CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <sql id="Base_Column_List">
+        ID,COMMAND_KEY,COMMAND,REMARK,ENABLE_FLAG,CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <!---    LogSearchCommandConfig deleteByPrimaryKey   -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM
+            T_MONITOR_SCRIPT_COMMAND_CONFIG
+        WHERE
+            ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!---    LogSearchCommandConfig insert   -->
+    <insert id="insert" parameterType="com.oriental.finance.cat.monitor.dal.model.ScriptCommandConfigDO">
+        insert into T_MONITOR_SCRIPT_COMMAND_CONFIG (
+            <include refid="Insert_Column_List"/>
+        )
+        values (
+            #{commandKey,jdbcType=VARCHAR}, #{command,jdbcType=VARCHAR},
+            #{remark,jdbcType=VARCHAR}, #{enableFlag,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+            NOW(), #{updateBy,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!---    LogSearchCommandConfig update   -->
+    <update id="update" parameterType="com.oriental.finance.cat.monitor.dal.model.ScriptCommandConfigDO">
+        update
+            T_MONITOR_SCRIPT_COMMAND_CONFIG
+        SET
+            <if test="null != commandKey and '' != commandKey">
+                COMMAND_KEY = #{commandKey,jdbcType=VARCHAR},
+            </if>
+            <if test="null != command and '' != command">
+                COMMAND = #{command,jdbcType=VARCHAR},
+            </if>
+            <if test="null != remark and '' != remark">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="null != enableFlag and '' != enableFlag">
+                ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="null != updateBy and '' != updateBy">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        WHERE
+            ID = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!---    LogSearchCommandConfig findByPrimaryKey   -->
+    <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            T_MONITOR_SCRIPT_COMMAND_CONFIG
+        WHERE
+            ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!---    LogSearchCommandConfig findByCondition   -->
+    <select id="findByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            t_monitor_script_command_config
+        WHERE 1=1
+        <if test="null != commandKey and '' != commandKey">
+            AND COMMAND_KEY = #{commandKey,jdbcType=VARCHAR}
+        </if>
+        <if test="null != command and '' != command">
+            AND COMMAND = #{command,jdbcType=VARCHAR}
+        </if>
+        <if test="null != enableFlag and '' != enableFlag">
+            AND ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="null != createBy and '' != createBy">
+            AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="null != createAt">
+            AND CREATE_AT = #{createAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != updateBy and '' != updateBy">
+            AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        </if>
+        <if test="null != updateAt">
+            AND UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+</mapper>

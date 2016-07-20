@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+       default-lazy-init="true">
+
+    <dubbo:application name="CAT-MONITOR-CONSUMER"/>
+
+    <dubbo:registry id="zk" protocol="zookeeper"
+                    address="${zookeeper.url}"
+                    file="${cat.monitor.dubbo.cache.file.dir}/${cat.monitor.dubbo.cache.file.name}"/>
+    <!-- 监控中心配置 -->
+    <dubbo:monitor protocol="zk"/>
+
+    <!-- 客户系统应用状况 -->
+    <dubbo:reference id="sysStateFacade"
+                     interface="com.oriental.finance.cif.product.facade.SysStateFacade"
+                     retries="0"
+                     timeout="5000"
+                     version="${cif.dubbo.service.version}"
+                     check="false"/>
+
+</beans>

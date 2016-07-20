@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!--环境配置-->
+    <group name="global">
+        <property name="appName" defaultValue="CAT-MONITOR" description="客户账户监控系统"/>
+    </group>
+
+    <!--日志配置-->
+    <group name="logConfig">
+        <property name="logRoot" defaultValue="C:/cat-monitor/" description="日志路径"/>
+        <property name="logLevel" defaultValue="DEBUG" description="日志级别"/>
+    </group>
+
+    <!--dubbo配置-->
+    <group name="dubboConfig">
+        <property name="cif.dubbo.service.version" defaultValue="1.0.1" description="客户系统dubbo服务版本号"/>
+        <property name="zookeeper.url" defaultValue="127.0.0.1" description="客户系统dubbo服务版本号"/>
+        <property name="cat.monitor.dubbo.cache.file.dir" defaultValue="C:/.dubbo" description="客户系统dubbo服务版本号"/>
+        <property name="cat.monitor.dubbo.cache.file.name" defaultValue="cat-monitor-dubbo-registry.cache" description="客户系统dubbo服务版本号"/>
+    </group>
+
+    <!--数据库连接池配置-->
+    <group name="dbConfig">
+        <property name="db.driver" defaultValue="com.mysql.jdbc.Driver" description="MYSQL连接驱动"/>
+        <property name="db.url" defaultValue="jdbc:mysql://127.0.0.1:3306/cat-monitor?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;serverTimezone=PRC&amp;useSSL=false" description="MYSQL连接URL"/>
+        <property name="db.username" defaultValue="cat" description="MYSQL实例用户名"/>
+        <property name="db.password" defaultValue="1234" description="MYSQL实例用户密码" />
+        <property name="db.initialSize" defaultValue="20" description="连接池初始大小"/>
+        <property name="db.minIdle" defaultValue="1" description="连接池最小空闲数"/>
+        <property name="db.maxActive" defaultValue="150" description="连接池初始大小"/>
+        <property name="db.maxWait" defaultValue="5000" description="获取连接时最大等待时间，单位毫秒"/>
+        <property name="db.timeBetweenLogStatsMillis" defaultValue="300000" description="定期把监控数据输出到日志中"/>
+        <property name="db.minEvictableIdleTimeMillis" defaultValue="300000" description="配置一个连接在池中最小生存的时间，单位是毫秒"/>
+        <property name="db.timeBetweenEvictionRunsMillis" defaultValue="120000" description="配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒"/>
+    </group>
+
+    <script>
+        <generate template="logback.xml.vm" destfile="WEB-INF/classes/logback.xml"/>
+        <generate template="spring-datasource.xml.vm" destfile="WEB-INF/classes/spring/spring-datasource.xml"/>
+        <generate template="consumer.xml.vm" destfile="WEB-INF/classes/dubbo/consumer.xml"/>
+    </script>
+</config>

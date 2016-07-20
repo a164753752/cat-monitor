@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oriental.finance.cat.monitor.dal.mapper.DataSourceStateMapper">
+
+    <resultMap id="BaseResultMap" type="com.oriental.finance.cat.monitor.dal.model.DataSourceStateDO">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="PLATFORM" property="platform" jdbcType="VARCHAR"/>
+        <result column="RECORD_DATE" property="recordDate" jdbcType="TIMESTAMP"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="URL" property="url" jdbcType="VARCHAR"/>
+        <result column="DRIVER_CLASS_NAME" property="driverClassName" jdbcType="VARCHAR"/>
+        <result column="AUTO_COMMIT" property="autoCommit" jdbcType="VARCHAR"/>
+        <result column="NUM_ACTIVE" property="numActive" jdbcType="INTEGER"/>
+        <result column="NUM_IDLE" property="numIdle" jdbcType="INTEGER"/>
+        <result column="INITIAL_SIZE" property="initialSize" jdbcType="INTEGER"/>
+        <result column="MAX_SIZE" property="maxSize" jdbcType="INTEGER"/>
+        <result column="MIN_IDLE" property="minIdle" jdbcType="INTEGER"/>
+        <result column="MAX_IDLE" property="maxIdle" jdbcType="INTEGER"/>
+        <result column="MAX_WAIT" property="maxWait" jdbcType="BIGINT"/>
+        <result column="IDLE_ALIVE_TIME" property="idleAliveTime" jdbcType="BIGINT"/>
+        <result column="TEST_ON_BORROW" property="testOnBorrow" jdbcType="VARCHAR"/>
+        <result column="IDLE_RELEASE_TIME" property="idleReleaseTime" jdbcType="BIGINT"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Insert_Column_List">
+        PLATFORM,RECORD_DATE,USER_NAME,URL,DRIVER_CLASS_NAME,AUTO_COMMIT,
+        NUM_ACTIVE,NUM_IDLE,INITIAL_SIZE,MAX_SIZE,MIN_IDLE,
+        MAX_IDLE,MAX_WAIT,IDLE_ALIVE_TIME,TEST_ON_BORROW,IDLE_RELEASE_TIME,
+        CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <sql id="Base_Column_List">
+        ID,<include refid="Insert_Column_List"/>
+    </sql>
+
+    <!--    DataSourceState insert    -->
+    <insert id="insert" parameterType="com.oriental.finance.cat.monitor.dal.model.DataSourceStateDO">
+        insert into t_monitor_data_source_state (
+            <include refid="Insert_Column_List"/>
+            )
+            values (
+            #{platform,jdbcType=VARCHAR}, #{recordDate,jdbcType=TIMESTAMP},
+            #{userName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{driverClassName,jdbcType=VARCHAR},
+            #{autoCommit,jdbcType=VARCHAR}, #{numActive,jdbcType=INTEGER}, #{numIdle,jdbcType=INTEGER},
+            #{initialSize,jdbcType=INTEGER}, #{maxSize,jdbcType=INTEGER}, #{minIdle,jdbcType=INTEGER},
+            #{maxIdle,jdbcType=INTEGER}, #{maxWait,jdbcType=BIGINT}, #{idleAliveTime,jdbcType=BIGINT},
+            #{testOnBorrow,jdbcType=VARCHAR}, #{idleReleaseTime,jdbcType=BIGINT}, #{createBy,jdbcType=VARCHAR},
+            NOW(), #{updateBy,jdbcType=VARCHAR},NOW()
+        )
+    </insert>
+
+    <!--    DataSourceState findByPrimaryKey    -->
+    <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+            <include refid="Base_Column_List"/>
+        where
+            ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--    DataSourceState findByCondition    -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            t_monitor_data_source_state
+        WHERE 1=1
+        <if test="null != platform and '' != platform">
+            AND PLATFORM = #{platform,jdbcType=VARCHAR}
+        </if>
+        <if test="null != recordDate">
+            AND RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != userName and '' != userName">
+            AND USER_NAME = #{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="null != url and '' != url">
+            AND URL = #{url,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+</mapper>

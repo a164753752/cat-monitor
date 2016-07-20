@@ -1,0 +1,26 @@
+.cat-search-condition {
+    background-color: #FCFCFC;
+    margin: 0 1px 0 1px;
+    border: solid 1px #ddd;
+    border-bottom: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.cat-search-condition-col {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.cat-search-paging {
+    background-color: #FCFCFC;
+    margin: -20px 0 1px 1px;
+    border: solid 1px #ddd;
+    border-top: none;
+    height: 75px;
+}
+
+.cat-search-button {
+    margin-top: 15px;
+    margin-left: 25px
+}

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oriental.finance.cat.monitor.dal.mapper.ThreadPoolStateMapper">
+
+    <resultMap id="BaseResultMap" type="com.oriental.finance.cat.monitor.dal.model.ThreadPoolStateDO">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="PLATFORM" property="platform" jdbcType="VARCHAR"/>
+        <result column="TYPE" property="type" jdbcType="VARCHAR"/>
+        <result column="RECORD_DATE" property="recordDate" jdbcType="TIMESTAMP"/>
+        <result column="POOL_SIZE" property="poolSize" jdbcType="INTEGER"/>
+        <result column="CORE_POOL_SIZE" property="corePoolSize" jdbcType="INTEGER"/>
+        <result column="MAX_POOL_SIZE" property="maxPoolSize" jdbcType="INTEGER"/>
+        <result column="LARGEST_POOL_SIZE" property="largestPoolSize" jdbcType="INTEGER"/>
+        <result column="ACTIVE_COUNT" property="activeCount" jdbcType="INTEGER"/>
+        <result column="TASK_COUNT" property="taskCount" jdbcType="BIGINT"/>
+        <result column="COMPLETED_TASK_COUNT" property="completedTaskCount" jdbcType="BIGINT"/>
+        <result column="QUEUE_SIZE" property="queueSize" jdbcType="INTEGER"/>
+        <result column="KEEP_ALIVE_TIME" property="keepAliveTime" jdbcType="BIGINT"/>
+        <result column="ALLOW_RELEASE_CODE_IDLE" property="allowReleaseCodeIdle" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Insert_Column_List">
+        PLATFORM,TYPE,RECORD_DATE,POOL_SIZE,CORE_POOL_SIZE,MAX_POOL_SIZE,
+        LARGEST_POOL_SIZE,ACTIVE_COUNT,TASK_COUNT,COMPLETED_TASK_COUNT,
+        QUEUE_SIZE,KEEP_ALIVE_TIME,ALLOW_RELEASE_CODE_IDLE,
+        CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <sql id="Base_Column_List">
+        ID,<include refid="Insert_Column_List"/>
+    </sql>
+
+    <!--  ThreadPoolState insert  -->
+    <insert id="insert" parameterType="com.oriental.finance.cat.monitor.dal.model.ThreadPoolStateDO">
+        insert into t_monitor_thread_pool_state (
+            <include refid="Insert_Column_List"/>
+        )
+        values (
+            #{platform,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+            #{recordDate,jdbcType=TIMESTAMP}, #{poolSize,jdbcType=INTEGER}, #{corePoolSize,jdbcType=INTEGER},
+            #{maxPoolSize,jdbcType=INTEGER}, #{largestPoolSize,jdbcType=INTEGER}, #{activeCount,jdbcType=INTEGER},
+            #{taskCount,jdbcType=BIGINT}, #{completedTaskCount,jdbcType=BIGINT}, #{queueSize,jdbcType=INTEGER},
+            #{keepAliveTime,jdbcType=BIGINT}, #{allowReleaseCodeIdle,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+            NOW(), #{updateBy,jdbcType=VARCHAR},NOW()
+         )
+    </insert>
+
+    <!--  ThreadPoolState findByPrimaryKey  -->
+    <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            t_monitor_thread_pool_state
+        where
+            ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--  ThreadPoolState findByCondition  -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            t_monitor_thread_pool_state
+        WHERE 1=1
+            <if test="null != platform and '' != platform">
+                AND PLATFORM = #{platform,jdbcType=VARCHAR}
+            </if>
+            <if test="null != type and '' != type">
+                AND TYPE = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="null != recordDate">
+                AND RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP}
+            </if>
+    </select>
+</mapper>

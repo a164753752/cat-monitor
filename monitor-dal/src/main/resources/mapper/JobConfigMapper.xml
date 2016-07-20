@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oriental.finance.cat.monitor.dal.mapper.JobConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.oriental.finance.cat.monitor.dal.model.JobConfigDO">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR"/>
+        <result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR"/>
+        <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="JOB_CRON_EXPRESS" property="jobCronExpress" jdbcType="VARCHAR"/>
+        <result column="JOB_EXEC_COUNT" property="jobExecCount" jdbcType="INTEGER"/>
+        <result column="RETRY_TIMES" property="retryTimes" jdbcType="INTEGER"/>
+        <result column="LAST_EXEC_TIME" property="lastExecTime" jdbcType="TIMESTAMP"/>
+        <result column="NEXT_EXEC_TIME" property="nextExecTime" jdbcType="TIMESTAMP"/>
+        <result column="JOB_USED_TIME" property="jobUsedTime" jdbcType="TIMESTAMP"/>
+        <result column="IS_CLUSTERS" property="isClusters" jdbcType="VARCHAR"/>
+        <result column="JOB_COMMAND_KEY" property="jobCommandKey" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Insert_Column_List">
+        JOB_NAME,JOB_GROUP,JOB_CLASS,STATUS,JOB_CRON_EXPRESS,
+        JOB_EXEC_COUNT,RETRY_TIMES,LAST_EXEC_TIME,NEXT_EXEC_TIME,
+        JOB_USED_TIME,IS_CLUSTERS,JOB_COMMAND_KEY,REMARK,ENABLE_FLAG,
+        CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <sql id="Base_Column_List">
+        ID,JOB_NAME,JOB_GROUP,JOB_CLASS,STATUS,JOB_CRON_EXPRESS,
+        JOB_EXEC_COUNT,RETRY_TIMES,LAST_EXEC_TIME,NEXT_EXEC_TIME,
+        JOB_USED_TIME,IS_CLUSTERS,JOB_COMMAND_KEY,REMARK,ENABLE_FLAG,
+        CREATE_BY,CREATE_AT,UPDATE_BY,UPDATE_AT
+    </sql>
+
+    <!--    JobConfig deleteByPrimaryKey    -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM
+          t_monitor_job_config
+        WHERE
+          ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--    JobConfig insert    -->
+    <insert id="insert" parameterType="com.oriental.finance.cat.monitor.dal.model.JobConfigDO">
+        INSERT INTO t_monitor_job_config (
+          <include refid="Insert_Column_List"/>
+        )
+        VALUES (
+            #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR},
+            #{jobClass,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+            #{jobCronExpress,jdbcType=VARCHAR}, #{jobExecCount,jdbcType=INTEGER}, #{retryTimes,jdbcType=INTEGER},
+            #{lastExecTime,jdbcType=TIMESTAMP}, #{nextExecTime,jdbcType=TIMESTAMP}, #{jobUsedTime,jdbcType=TIMESTAMP},
+            #{isClusters,jdbcType=VARCHAR}, #{jobCommandKey,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+            #{enableFlag,jdbcType=VARCHAR}, #{createBy,jdbcType=TIMESTAMP},NOW(),
+            #{updateBy,jdbcType=VARCHAR}, #{updateAt,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!--    JobConfig update    -->
+    <update id="update" parameterType="com.oriental.finance.cat.monitor.dal.model.JobConfigDO">
+        UPDATE
+          t_monitor_job_config
+        SET
+            <if test="null != jobName and '' != jobName">
+              JOB_NAME = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="null != jobGroup and '' != jobGroup">
+                JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="null != jobClass and '' != jobClass">
+                JOB_CLASS = #{jobClass,jdbcType=VARCHAR},
+            </if>
+            <if test="null != status and '' != status">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="null != jobCronExpress and '' != jobCronExpress">
+                JOB_CRON_EXPRESS = #{jobCronExpress,jdbcType=VARCHAR},
+            </if>
+            <if test="null != jobExecCount and '' != jobExecCount">
+                JOB_EXEC_COUNT = #{jobExecCount,jdbcType=INTEGER},
+            </if>
+            <if test="null != retryTimes">
+                RETRY_TIMES = #{retryTimes,jdbcType=INTEGER},
+            </if>
+            <if test="null != lastExecTime">
+                LAST_EXEC_TIME = #{lastExecTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="null != nextExecTime">
+                NEXT_EXEC_TIME = #{nextExecTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="null != jobUsedTime">
+                JOB_USED_TIME = #{jobUsedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="null != isClusters and '' != isClusters">
+                IS_CLUSTERS = #{isClusters,jdbcType=VARCHAR},
+            </if>
+            JOB_COMMAND_KEY = #{jobCommandKey,jdbcType=VARCHAR},
+            <if test="null != remark and '' != remark">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="null != enableFlag and '' != enableFlag">
+                ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="null != updateBy and '' != updateBy">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        WHERE
+          ID = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--    JobConfig findByPrimaryKey    -->
+    <select id="findByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          t_monitor_job_config
+        WHERE
+          ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--    JobConfig findByCondition    -->
+    <select id="findByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          t_monitor_job_config
+        WHERE 1=1
+            <if test="null != jobName and '' != jobName">
+                AND JOB_NAME = #{jobName,jdbcType=VARCHAR}
+            </if>
+            <if test="null != jobGroup and '' != jobGroup">
+                AND JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+            </if>
+            <if test="null != jobClass and '' != jobClass">
+                AND JOB_CLASS = #{jobClass,jdbcType=VARCHAR}
+            </if>
+            <if test="null != status and '' != status">
+                AND STATUS = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="null != jobCronExpress and '' != jobCronExpress">
+                AND JOB_CRON_EXPRESS = #{jobCronExpress,jdbcType=VARCHAR}
+            </if>
+            <if test="null != jobExecCount and '' != jobExecCount">
+                AND JOB_EXEC_COUNT = #{jobExecCount,jdbcType=INTEGER}
+            </if>
+            <if test="null != retryTimes and '' != retryTimes">
+                AND RETRY_TIMES = #{retryTimes,jdbcType=INTEGER}
+            </if>
+            <if test="null != lastExecTime">
+                AND LAST_EXEC_TIME = #{lastExecTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="null != nextExecTime">
+                AND NEXT_EXEC_TIME = #{nextExecTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="null != jobUsedTime">
+                AND JOB_USED_TIME = #{jobUsedTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="null != isClusters and '' != isClusters">
+                AND IS_CLUSTERS = #{isClusters,jdbcType=VARCHAR}
+            </if>
+            <if test="null != jobCommandKey and '' != jobCommandKey">
+                AND JOB_COMMAND_KEY = #{jobCommandKey,jdbcType=VARCHAR}
+            </if>
+            <if test="null != enableFlag and '' != enableFlag">
+                AND ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR}
+            </if>
+            <if test="null != createBy and '' != createBy">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="null != createAt">
+                AND CREATE_AT = #{createAt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="null != updateBy and '' != updateBy">
+                AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="null != updateAt">
+                AND UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP}
+            </if>
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="G:/Maven/.m2/repository/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar" />
+    <context id="CAT-MONITOR" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!--<plugin type="ModelAndMapperPlugin"/>-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/cat-monitor?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;serverTimezone=PRC&amp;useSSL=false"
+                        userId="cat"
+                        password="1234">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.oriental.finance.cat.monitor.dal.model"
+                            targetProject="src/main/java">
+            <property name="constructorBased" value="false"/>
+            <property name="useActualColumnNames" value="true" />
+            <property name="enableSubPackages" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="trimStrings" value="true"/>
+            <property name="rootClass" value="com.oriental.finance.cat.monitor.dal.model.BaseDO"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.oriental.finance.cat.monitor.dal.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="rootInterface" value="com.oriental.finance.cat.monitor.dal.mapper.BaseMapper"/>
+        </javaClientGenerator>
+
+        <table schema="cat-monitor"
+               tableName="t_monitor_data_source_state"
+               enableCountByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               domainObjectName="DataSourceStateDO">
+        </table>
+
+        <table schema="cat-monitor"
+               tableName="t_monitor_thread_pool_state"
+               enableCountByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               domainObjectName="ThreadPoolStateDO">
+        </table>
+    </context>
+
+</generatorConfiguration>
